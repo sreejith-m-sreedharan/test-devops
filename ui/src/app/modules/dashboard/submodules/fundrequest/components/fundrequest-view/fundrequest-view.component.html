@@ -1,0 +1,70 @@
+<div class="breadcrumb">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="dashboard"></i>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="dollar"></i><span>Fund Request</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="fund-view"></i><span>View Fund Request</span></a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<nz-layout class="page-layout">
+  <nz-card class="card-layout">
+    <nz-page-header class="site-page-header" nzTitle="View Fund Request" nzSubtitle="View fund request details" #parent>
+    </nz-page-header>
+    <form nz-row nz-form>
+      <div nz-col [nzSpan]="24" class="page-content">
+        <div nz-row *ngIf="enableFilter">
+          <div nz-col [nzXl]="20" [nzMd]="20" [nzSm]="24" [nzXs]="24">
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <button type="button" nz-button nzType="primary" (click)="toggleShowFundRequests()">
+                  <i nz-icon nzType="filter"></i
+                  >{{ showAllFundRequests ? 'Show All Fund Requests' : 'Show only current Id' }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center"></div>
+        </div>
+        <nz-divider *ngIf="enableFilter"></nz-divider>
+        <br />
+        <div nz-row>
+          <div nz-col nzSpan="24">
+            <nz-table #filterTable class="responsive-table" [nzData]="filteredFundRequests" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Company Name</th>
+                  <th>Fund Manager</th>
+                  <th>Fund Reference Id</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fundRequest of filterTable.data">
+                  <td data-title="Id">{{ fundRequest.id }}</td>
+                  <td data-title="Company Name" [nzEllipsis]="true">{{ fundRequest.companyName }}</td>
+                  <td data-title="Fund Manager">{{ fundRequest.publicEntity }}</td>
+                  <td data-title="Fund Reference Id">{{ fundRequest.fundReference }}</td>
+                  <td data-title="Status" [nzBreakWord]="true">
+                    <a (click)="updateFundRequest(fundRequest)" type="link">{{ fundRequest.status }}</a>
+                  </td>
+                  <td data-title="Action">
+                    <a class="btn btn-default" (click)="updateFundRequest(fundRequest)">View</a>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <br />
+      </div>
+    </form>
+  </nz-card>
+</nz-layout>

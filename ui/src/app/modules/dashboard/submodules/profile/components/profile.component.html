@@ -1,0 +1,288 @@
+<nz-modal nzTitle="Upload File" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <div nz-row>
+    <div nz-col [nzSpan]="24">
+      <nz-form-item nz-row>
+        <div nz-col [nzSm]="24" [nzMd]="12">
+          <nz-form-label nzFor="fileUpload">Upload Files</nz-form-label>
+        </div>
+        <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please upload file!">
+          <nz-upload nzAction="#" [nzFileList]="fileList" [nzMultiple]="true">
+            <button type="button" nz-button><i nz-icon nzType="upload"></i>Upload</button>
+          </nz-upload>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</nz-modal>
+
+<div class="breadcrumb">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="dashboard"></i>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="user"></i><span>Profile</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="bank"></i><span>Company Profile</span></a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<nz-layout class="page-layout">
+  <nz-card class="card-layout">
+    <nz-page-header class="site-page-header" nzTitle="Company Profile" nzSubtitle="Investor details" #parent>
+    </nz-page-header>
+    <form nz-row nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <div nz-col [nzSpan]="24" class="page-content">
+        <div nz-row>
+          <div nz-col [nzXl]="24" [nzMd]="24" [nzSm]="24" [nzXs]="24">
+            <div nz-row>
+              <nz-radio-group formControlName="contactType" nz-col [nzSpan]="24">
+                <div nz-row nzJustify="start">
+                  <div nz-col [nzSm]="24" [nzMd]="10" [nzXs]="24">
+                    <nz-form-label nzRequired>Contact Type </nz-form-label>
+                    <br /><br />
+                  </div>
+                  <div nz-col [nzSm]="24" [nzMd]="5" [nzXs]="24" class="column">
+                    <label nz-radio nzValue="Individual">Individual</label>
+                  </div>
+                  <div nz-col [nzSm]="24" [nzMd]="5" [nzXs]="24" class="column">
+                    <label nz-radio nzValue="Organization">Organization</label>
+                  </div>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </div>
+              </nz-radio-group>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="organizationName">Organization Name</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" nzErrorTip="Please input organization name!">
+                    <input type="text" formControlName="organizationName" nz-input placeholder="Organization Name" />
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="taxId">Tax ID</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" nzErrorTip="Please input tax Id!">
+                    <input type="text" formControlName="taxId" nz-input placeholder="Tax ID" />
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="firmType">Firm Type</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" nzErrorTip="Please input firmType!">
+                    <nz-select formControlName="firmType" [nzPlaceHolder]="'Firm Type'">
+                      <nz-option
+                        *ngFor="let firmType of firmTypes"
+                        [nzValue]="firmType.name"
+                        [nzLabel]="firmType.name"
+                      ></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="regId">Registration ID</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" nzErrorTip="Please input registration Id!">
+                    <input type="text" formControlName="regId" nz-input placeholder="Registration Id" />
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="emailId">Email ID</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" [nzErrorTip]="emailErrorTpl">
+                    <input type="email" formControlName="emailId" nz-input placeholder="Email Id" />
+                    <ng-template #emailErrorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">
+                        Please input E-mail Id!
+                      </ng-container>
+                      <ng-container *ngIf="control.hasError('email')">
+                        The input is not a valid E-mail!
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="10">
+                    <nz-form-label nzRequired nzFor="inBusinessSince">In Business Since</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="10" nzErrorTip="Please input In Business Since!">
+                    <nz-date-picker
+                      formControlName="inBusinessSince"
+                      [nzPlaceHolder]="'In Business Since'"
+                      [nzInputReadOnly]="'true'"
+                    ></nz-date-picker>
+                  </nz-form-control>
+                  <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+                    <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+                      <i nz-icon nzType="upload"></i> Upload
+                    </button>
+                  </div> -->
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nz-divider></nz-divider>
+        <div nz-row>
+          <div nz-col [nzSpan]="24" class="sub-heading">
+            <h3>Address Information</h3>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col [nzXl]="20" [nzMd]="20" [nzSm]="24" [nzXs]="24">
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="12">
+                    <nz-form-label nzRequired nzFor="address1">Address 1</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please input Address!">
+                    <input type="text" formControlName="address1" nz-input placeholder="Address 1" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="12">
+                    <nz-form-label nzRequired nzFor="address2">Address 2</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please input Address!">
+                    <input type="text" formControlName="address2" nz-input placeholder="Address 2" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="12">
+                    <nz-form-label nzRequired nzFor="address3">Address 3</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please input Address!">
+                    <textarea formControlName="address3" nz-input placeholder="Address 3"></textarea>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+          <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+            <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+              <i nz-icon nzType="upload"></i> Upload
+            </button>
+          </div> -->
+        </div>
+        <nz-divider></nz-divider>
+        <div nz-row>
+          <div nz-col [nzSpan]="24" class="sub-heading">
+            <h3>Contact details</h3>
+          </div>
+        </div>
+        <div nz-row>
+          <div nz-col [nzXl]="20" [nzMd]="20" [nzSm]="24" [nzXs]="24">
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="12">
+                    <nz-form-label nzRequired nzFor="contactPerson">Contact Person</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please input Contact Person !">
+                    <input type="text" formControlName="contactPerson" nz-input placeholder="Contact Person" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row>
+                  <div nz-col [nzSm]="24" [nzMd]="12">
+                    <nz-form-label nzRequired nzFor="contactNumber">Contact Number</nz-form-label>
+                  </div>
+                  <nz-form-control nz-col [nzSm]="24" [nzMd]="12" nzErrorTip="Please input Contact Number !">
+                    <input type="text" formControlName="contactNumber" nz-input placeholder="Contact Number" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </div>
+          <!-- <div nz-col [nzXl]="4" [nzMd]="4" [nzSm]="24" [nzXs]="24" class="text-center">
+            <button nzGhost type="button" class="upload-btn" nz-button nzType="primary" title="Upload Files">
+              <i nz-icon nzType="upload"></i> Upload
+            </button>
+          </div> -->
+        </div>
+        <br />
+        <nz-divider></nz-divider>
+        <br />
+        <div nz-row [nzJustify]="'end'">
+          <div nz-col [nzXl]="24" [nzMd]="24" [nzSm]="24" [nzXs]="24" class="text-center">
+            <nz-button-group>
+              <button type="submit" nz-button nzType="primary"><i nz-icon nzType="save"></i>Submit</button>
+              <button type="button" nz-button nzType="default" (click)="formReset()">
+                <i nz-icon nzType="clear"></i>Cancel
+              </button>
+            </nz-button-group>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+</nz-layout>

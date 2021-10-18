@@ -1,0 +1,6 @@
+docker build -t innovate2020:latest -t innovate2020:0.0.0 .
+docker rm -f innovate2020
+docker run -d -t --name innovate2020  -p 80:80  innovate2020:latest .
+docker run -d -t --name innovate2020 -e FUND_MANAGER_URL="http://192.168.1.60:9081" -e BLOCK_CHAIN_URL="http://vmfalcon.southindia.cloudapp.azure.com:8080/api" -e INVESTOR_URL="http://192.168.1.60:8081" -p 80:80  innovate2020:latest .
+
+docker run -d -t --name innovate2020 -e FUND_MANAGER_URL="http://172.17.0.1:9081" -e BLOCK_CHAIN_URL="http://vmfalcon.southindia.cloudapp.azure.com:8080/api" -e INVESTOR_URL="http://172.17.0.1:8081" -p 80:80  innovate2020:latest .

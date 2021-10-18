@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Innovate2020</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1, minimum-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preload" type="text/css" href="assets/themes/theme.light.min.css" as="style" />
+    <link rel="preload" type="text/css" href="assets/themes/theme.dark.min.css" as="style" />
+    <link rel="stylesheet" id="theme-style" type="text/css" href="assets/themes/theme.light.min.css" />
+    <link href="assets/images/login-bg.jpg" rel="preload" as="image" />
+    <link href="assets/images/Investran.PNG" rel="preload" as="image" />
+    <style>
+      body {
+        background: #001529 !important;
+      }
+      .loader > div div {
+        background: #f5ad2a;
+      }
+      @-webkit-keyframes sk-cubeGridScaleDelay {
+        0%,
+        70%,
+        100% {
+          -webkit-transform: scale3D(1, 1, 1);
+          transform: scale3D(1, 1, 1);
+        }
+        35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+        }
+      }
+
+      @keyframes sk-cubeGridScaleDelay {
+        0%,
+        70%,
+        100% {
+          -webkit-transform: scale3D(1, 1, 1);
+          transform: scale3D(1, 1, 1);
+        }
+        35% {
+          -webkit-transform: scale3D(0, 0, 1);
+          transform: scale3D(0, 0, 1);
+        }
+      }
+      app-root router-outlet:empty + * > * {
+        animation: fadeIn 1s forwards;
+        -webkit-animation: fadeIn 1s forwards;
+        -moz-animation: fadeIn 1s forwards;
+      }
+      app-root:not(:empty) + .loader {
+        animation: fadeOut 0.6s forwards;
+        -webkit-animation: fadeOut 0.6s forwards;
+        -moz-animation: fadeOut 0.6s forwards;
+        animation: changeZIndex 0s linear 0.6s forwards;
+        -webkit-animation: changeZIndex 0s linear 0.6s forwards;
+        -moz-animation: changeZIndex 0s linear 0.6s forwards;
+      }
+      app-root:empty + .loader {
+        z-index: 10000000;
+        opacity: 1;
+        background-color: rgba(0, 21, 41, 1);
+      }
+      @-moz-keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @-webkit-keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      /*** **/
+      @-moz-keyframes fadeOut {
+        from {
+          background-color: rgba(0, 21, 41, 1);
+          opacity: 1;
+        }
+        to {
+          background-color: rgba(0, 21, 41, 0);
+          opacity: 0;
+        }
+      }
+      @keyframes fadeOut {
+        from {
+          background-color: rgba(0, 21, 41, 1);
+          opacity: 1;
+        }
+        to {
+          background-color: rgba(0, 21, 41, 0);
+          opacity: 0;
+        }
+      }
+      @-webkit-keyframes fadeOut {
+        from {
+          background-color: rgba(0, 21, 41, 1);
+          opacity: 1;
+        }
+        to {
+          background-color: rgba(0, 21, 41, 0);
+          opacity: 0;
+        }
+      }
+
+      /* --- */
+      @-moz-keyframes changeZIndex {
+        from {
+          z-index: 10000000;
+        }
+        to {
+          z-index: -1;
+        }
+      }
+      @keyframes changeZIndex {
+        from {
+          z-index: 10000000;
+        }
+        to {
+          z-index: -1;
+        }
+      }
+      @-webkit-keyframes changeZIndex {
+        from {
+          z-index: 10000000;
+        }
+        to {
+          z-index: -1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <app-root> </app-root>
+    <div
+      class="loader"
+      style="
+        position: absolute;
+        margin: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100vh;
+      "
+    >
+      <div style="width: 100px; height: 100px; margin: calc(50vh - 50px) auto;">
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.1s;
+            animation-delay: 0.1s;
+          "
+        ></div>
+        <div
+          style="
+            width: 33%;
+            height: 33%;
+            float: left;
+            -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+          "
+        ></div>
+      </div>
+    </div>
+  </body>
+</html>

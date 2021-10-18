@@ -1,0 +1,44 @@
+<div class="breadcrumb">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <i nz-icon nzType="dashboard"></i>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="dollar"></i><span>Fund Request</span></a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a><i nz-icon nzType="fund-view"></i><span>Verify Fund Request List</span></a>
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+<nz-layout class="page-layout">
+  <nz-card class="card-layout">
+    <nz-page-header
+      class="site-page-header"
+      nzTitle="Verify Fund Request List"
+      nzSubtitle="Verify fund request list details"
+      #parent
+    >
+    </nz-page-header>
+    <form nz-row nz-form>
+      <div nz-col [nzSpan]="24" class="page-content">
+        <div nz-row>
+          <div nz-col [nzXl]="12" [nzMd]="18" [nzSm]="24" [nzXs]="24">
+            <div nz-row></div>
+          </div>
+        </div>
+        <br />
+        <nz-divider></nz-divider>
+        <br /><br />
+        <div nz-row [nzJustify]="'end'">
+          <div nz-col [nzXl]="24" [nzMd]="24" [nzSm]="24" [nzXs]="24" class="text-center">
+            <nz-button-group>
+              <button type="submit" nz-button nzType="primary"><i nz-icon nzType="save"></i>Submit</button>
+              <button type="reset" nz-button nzType="default"><i nz-icon nzType="clear"></i>Cancel</button>
+            </nz-button-group>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+</nz-layout>

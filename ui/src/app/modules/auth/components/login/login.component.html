@@ -1,0 +1,59 @@
+<div class="login pd-l-r-10">
+  <div class="container-layout bg-image" nz-row nzJustify="center">
+    <div class="content-layout" nz-col [nzXl]="16" [nzMd]="20" [nzSm]="24" [nzXs]="24">
+      <div nz-row nzJustify="center" class="login-container">
+        <!-- <div nz-col [nzMd]="12" [nzXs]="0" class="card-layout login-bg"></div> -->
+        <div nz-col [nzMd]="16" [nzXs]="24">
+          <div nz-row>
+            <div nz-col [nzSpan]="24" [nzMd]="0" class="banner-layout"></div>
+            <div class="sidebar-logo" nz-col [nzSpan]="24">
+              <img src="../../../../assets/images/Investran.PNG" alt="logo" />
+              <h1>Mehta Group</h1>
+            </div>
+            <nz-card class="card-layout rounded inner-content" nz-col [nzSpan]="24">
+              <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()" nz-row>
+                <div class="field" nz-col [nzSpan]="24">
+                  <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input your username!">
+                      <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="userName" placeholder="Username" />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="field" nz-col [nzSpan]="24">
+                  <nz-form-item>
+                    <nz-form-control nzErrorTip="Please input your Password!">
+                      <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Password" />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col [nzSpan]="24" class="field login-form-margin">
+                  <div nz-row>
+                    <div nz-col [nzSpan]="12">
+                      <label nz-checkbox formControlName="rememberMe">
+                        <span>Remember me</span>
+                      </label>
+                    </div>
+                    <div nz-col [nzSpan]="12">
+                      <a class="login-form-forgot">Forgot password</a>
+                    </div>
+                  </div>
+                </div>
+                <div nz-col [nzSpan]="24" class="field">
+                  <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
+                    Log in
+                  </button>
+                  Or <a> register now! </a>
+                </div>
+              </form>
+            </nz-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

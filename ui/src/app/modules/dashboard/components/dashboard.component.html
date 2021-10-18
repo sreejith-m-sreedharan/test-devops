@@ -1,0 +1,101 @@
+<nz-layout class="app-layout" [class.theme-dark]="darkTheme" [class.theme-light]="!darkTheme">
+  <nz-sider
+    class="menu-sidebar"
+    nzWidth="256px"
+    [class.hide]="isCollapsed"
+    [class.show]="!isCollapsed"
+    nzBreakpoint="xl"
+    nzCollapsible
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    [nzCollapsedWidth]="80"
+    (nzCollapsedChange)="menuChanged()"
+    (clickOutside)="onClickedOutside($event)"
+    
+  >
+    <div class="menu-content">
+      <div class="side-title-bar">
+        <h1 [hidden]="isCollapsed">Investor Interface</h1>
+      </div>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li nz-submenu nzOpen nzTitle="Profile" nzIcon="user">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="profile">Company Profile</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzOpen nzTitle="Fund Request" nzIcon="dollar">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="fund-request/create">Create Fund Request</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="fund-request/view">View Fund Requests</a>
+            </li>
+            <!-- <li nz-menu-item nzMatchRouter>
+              <a routerLink="fund-request/verify">Verification</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="fund-request/verify-list">Verification List</a>
+            </li> -->
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nz-sider>
+  <nz-layout class="container-layout bg-image" [style.width]="contentPanelWidth">
+    <nz-header class="header-layout">
+      <div class="app-header">
+        <div class="header-trigger" (click)="triggerCollapse()">
+          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </div>
+        <div class="title-bar">
+          <img src="../../../../assets/images/Investran.PNG" alt="logo" />
+          <h1>Mehta Group</h1>
+        </div>
+        <div class="user-profile">
+          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+            <i class="fa fa-user"></i>
+            <i nz-icon nzType="down"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>
+                Test User
+              </li>
+              <li nz-menu-item>
+                sreejith.m.sreedharan@gmail.com
+              </li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item nzIcon nzType="setting">Settings</li>
+              <li nz-menu-item nzIcon nzType="database">Activity Log</li>
+              <li nz-menu-item>
+                Dark theme &nbsp;&nbsp;
+                <nz-switch
+                  [(ngModel)]="darkThemeSwitcher"
+                  (ngModelChange)="changeTheme()"
+                  [nzCheckedChildren]="checkedTemplate"
+                  [nzUnCheckedChildren]="unCheckedTemplate"
+                ></nz-switch>
+                <ng-template #checkedTemplate><i nz-icon nzType="check"></i></ng-template>
+                <ng-template #unCheckedTemplate><i nz-icon nzType="close"></i></ng-template>
+              </li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item nzIcon nzType="logout">Log out</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content class="content-layout" #content>
+      <div class="overlay" [hidden]="isCollapsed"></div>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<ng-template #userTemplate>
+  User Name
+</ng-template>
