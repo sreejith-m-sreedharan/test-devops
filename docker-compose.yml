@@ -3,6 +3,49 @@ version: '3.9'
  
 # Define services
 services:
+  elasticsearch:
+    image: elasticsearch:7.7.0
+    container_name: elasticsearch
+    environment:
+      - "discovery.type=single-node"
+ 
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+  logstash:
+    image: logstash:7.7.0
+    container_name: logstash
+    hostname: logstash
+    ports:
+      - 9600:9600
+      - 8089:8089
+    volumes:
+      - .\logstash:/usr/share/logstash/pipeline/
+    links:
+      - elasticsearch:elasticsearch
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
+  kibana:
+    image: kibana:7.7.0
+    container_name: kibana
+    hostname: kibana
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    networks:
+      - elastic
   # App backend service
   api-gateway-server:
     # Configuration for building the docker image for the backend service
@@ -12,15 +55,20 @@ services:
     ports:
       - "8080:8100" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
+    links:
+      - eureka-server:eureka-server
+      - user-management-server
+      - logger-server
+      - mongo:mongo
     depends_on:
       - eureka-server
-      - user-management-server
-      - db # This service depends on mongodb. Start that first.
+      - mongo # This service depends on mongodb. Start that first.
     environment: # Pass environment variables to the service
-      SPRING_DATA_MONGODB_URI: mongodb://127.0.0.1/test
-      SPRING_DATA_MONGODB_USERNAME: sreejith
-      SPRING_DATA_MONGODB_PASSWORD: sreejith
+      SPRING_DATA_MONGODB_URI: mongodb://sreejith:sreejith@mongo:27017/test
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SERVER_PORT: 8100
+      SPRING_PROFILES_ACTIVE: dev
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
       - frontend
@@ -30,38 +78,35 @@ services:
     build:
       context: server/ConfigServer # Use an image built from the specified dockerfile in the `spring-boot-oauth2-social-login` directory.
       dockerfile: Dockerfile
+    hostname: config-server
     ports:
       - "8888:8888" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
+    links:
+      - mongo:mongo
     depends_on:
-      - db # This service depends on mysql. Start that first.
+      - eureka-server
+      - mongo # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
-      SPRING_DATA_MONGODB_URI: mongodb://127.0.0.1/test
-      SPRING_DATA_MONGODB_USERNAME: sreejith
-      SPRING_DATA_MONGODB_PASSWORD: sreejith
+      SPRING_DATA_MONGODB_URI: mongodb://sreejith:sreejith@mongo:27017/test
       SERVER_PORT: 8888
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
-      - frontend
   # App backend service
   eureka-server:
     # Configuration for building the docker image for the backend service
     build:
       context: server/eurekaServer # Use an image built from the specified dockerfile in the `spring-boot-oauth2-social-login` directory.
       dockerfile: Dockerfile
+    hostname: eureka-server
     ports:
       - "8761:8761" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
-    depends_on:
-      - db # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
-      SPRING_DATA_MONGODB_URI: mongodb://127.0.0.1/test
-      SPRING_DATA_MONGODB_USERNAME: sreejith
-      SPRING_DATA_MONGODB_PASSWORD: sreejith
+      SPRING_DATA_MONGODB_URI: mongodb://sreejith:sreejith@mongo:27017/test
       SERVER_PORT: 8761
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
-      - frontend
   # App backend service
   
   user-management-server:
@@ -72,43 +117,92 @@ services:
     ports:
       - "8102:8102" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
-    depends_on:
+    links: 
       - eureka-server
-      - db # This service depends on mysql. Start that first.
+      - mongo
+    depends_on:
+      - mongo # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
-      SPRING_DATA_MONGODB_URI: mongodb://127.0.0.1/test
-      SPRING_DATA_MONGODB_USERNAME: sreejith
-      SPRING_DATA_MONGODB_PASSWORD: sreejith
+      SPRING_DATA_MONGODB_URI: mongodb://sreejith:sreejith@mongo:27017/test
       SERVER_PORT: 8102
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
-      - frontend
+  logger-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: server/LogService # Use an image built from the specified dockerfile in the `spring-boot-oauth2-social-login` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "8101:8101" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    links:
+      - mongo:mongo
+    depends_on:
+      - mongo # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      SPRING_DATA_MONGODB_URI: mongodb://sreejith:sreejith@mongo:27017/test
+      SERVER_PORT: 8101
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      LOGGING_FILE_NAME: ../../logs/spring-boot-elk.log
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: INFO
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
   # Frontend Service 
   app-client:
     build:
       context: ui # Use an image built from the specified dockerfile in the `angular-11-social-login` directory.
       dockerfile: Dockerfile
       args:
-        API_BASE_URL: http://127.0.0.1:8080/
+        API_BASE_URL: http://api-gateway-server:8080/
     ports:
       - "80:80" # Map the exposed port 80 on the container to port 8081 on the host machine
     restart: always
-    depends_on:
-      - api-gateway-server
+    links:
+      - api-gateway-server:api-gateway-server
     networks:
       - frontend  
  
   # Database Service (MongoDB)
-  db:
+  mongo:
     image: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: sreejith
+      MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: sreejith
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - backend  
-   
+  mongo-express:
+    image: mongo-express
+    restart: always
+    links:
+      - mongo:mongo
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: sreejith
+      ME_CONFIG_MONGODB_URL: mongodb://root:sreejith@mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: sreejith
+      ME_CONFIG_BASICAUTH_PASSWORD: sreejith
+    networks:
+      - backend
+volumes:
+  data01:
+    driver: local
 # Networks to be created to facilitate communication between containers
 networks:
   backend:
-  frontend: 
+    driver: bridge
+  frontend:
+  elastic:
+    driver: bridge
